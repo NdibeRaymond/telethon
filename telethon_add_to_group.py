@@ -3,6 +3,7 @@ from telethon.tl.functions.messages import GetDialogsRequest
 from telethon.tl.types import InputPeerEmpty, InputPeerChannel, InputPeerUser
 from telethon.errors.rpcerrorlist import PeerFloodError, UserPrivacyRestrictedError
 from telethon.tl.functions.channels import InviteToChannelRequest
+from telethon.tl.functions.messages import AddChatUserRequest
 import sys
 import csv
 import traceback
@@ -47,7 +48,7 @@ chats.extend(result.chats)
  
 for chat in chats:
     try:
-        if chat.group == True:
+        if chat.megagroup == True:
             groups.append(chat)
     except:
         continue
@@ -76,7 +77,7 @@ for user in users:
             user_to_add = InputPeerUser(user['id'], user['access_hash'])
         else:
             sys.exit("Invalid Mode Selected. Please Try Again.")
-        client(InviteToChannelRequest(target_group_entity,[user_to_add]))
+        client(AddChatUserRequest(target_group_entity,[user_to_add],fwd_limit=10))
         print("Waiting 60 Seconds...")
         time.sleep(60)
     except PeerFloodError:
