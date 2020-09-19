@@ -8,10 +8,11 @@ import sys
 import csv
 import traceback
 import time
+import random
  
-api_id = 1560714
-api_hash = '415fba1803544bf178cdd0419e7bde95'
-phone = '+2349035234033'
+api_id =  1495975
+api_hash = '53e42c39310aa2e4f33684e6089a16ed'
+phone = '+2349033142556'
 client = TelegramClient(phone, api_id, api_hash)
  
 client.connect()
@@ -48,7 +49,7 @@ chats.extend(result.chats)
  
 for chat in chats:
     try:
-        if chat.megagroup == True:
+        if chat.megagroup== True:
             groups.append(chat)
     except:
         continue
@@ -66,7 +67,12 @@ target_group_entity = InputPeerChannel(target_group.id,target_group.access_hash)
  
 mode = int(input("Enter 1 to add by username or 2 to add by ID: "))
  
+n = 0
+ 
 for user in users:
+    n += 1
+    if n % 50 == 0:
+        time.sleep(350)
     try:
         print ("Adding {}".format(user['id']))
         if mode == 1:
@@ -77,11 +83,11 @@ for user in users:
             user_to_add = InputPeerUser(user['id'], user['access_hash'])
         else:
             sys.exit("Invalid Mode Selected. Please Try Again.")
-        client(AddChatUserRequest(target_group_entity,[user_to_add],fwd_limit=10))
-        print("Waiting 60 Seconds...")
-        time.sleep(60)
-    except PeerFloodError:
-        print("Getting Flood Error from telegram. Script is stopping now. Please try again after some time.")
+        client(InviteToChannelRequest(target_group_entity,[user_to_add]))
+        print("Waiting for 60-120 Seconds...")
+        time.sleep(random.randrange(60, 120))
+    except PeerFloodError as e:
+        print("Getting Flood Error from telegram. Script is stopping now. Please try again after some time.",e)
     except UserPrivacyRestrictedError:
         print("The user's privacy settings do not allow you to do this. Skipping.")
     except:

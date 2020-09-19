@@ -3,10 +3,11 @@ from telethon.tl.functions.messages import GetDialogsRequest
 from telethon.tl.types import InputPeerEmpty
 import csv
 
-api_id = 1560714
-api_hash = '415fba1803544bf178cdd0419e7bde95'
-phone = '+2349035234033'
+api_id =  1495975
+api_hash = '53e42c39310aa2e4f33684e6089a16ed'
+phone = '+2349033142556'
 client = TelegramClient(phone, api_id, api_hash)
+
  
 client.connect()
 if not client.is_user_authorized():
